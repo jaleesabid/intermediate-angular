@@ -36,6 +36,7 @@ import { EventsService } from '../../core/events.service';
             [image]="event.image"
             [date]="event.date"
             (delete)="deleteEvent(event.id)"
+            [id]="event.id"
           />
         } @empty {
           <p>No Record Found!</p>
