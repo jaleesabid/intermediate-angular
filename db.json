@@ -7,7 +7,11 @@
       "description": "The future of the framework revealed. Join the Angular team as they unveil the latest advancements in reactivity, hydration, and tooling.",
       "location": "Main Hall",
       "image": "/images/angular-keynote.png",
-      "speakers": ["Sarah Drasner", "Minko Gechev", "Mark Techson"]
+      "speakers": [
+        "Sarah Drasner",
+        "Minko Gechev",
+        "Mark Techson"
+      ]
     },
     {
       "id": "2",
@@ -16,7 +20,10 @@
       "description": "Mastering the primitive that changed everything. Learn how to architect complex state without the chaos of manual subscriptions.",
       "location": "Room 3B",
       "image": "/images/signals-deep-dive.png",
-      "speakers": ["Alex Rickabaugh", "Pawel Kozlowski"]
+      "speakers": [
+        "Alex Rickabaugh",
+        "Pawel Kozlowski"
+      ]
     },
     {
       "id": "3",
@@ -25,7 +32,31 @@
       "description": "Hydration, Defer, and Performance. How to deliver instant TTI using Angular's new Incremental Hydration engine.",
       "location": "Auditorium",
       "image": "/images/ssr-at-scale.png",
-      "speakers": ["Jessica Janiuk"]
+      "speakers": [
+        "Jessica Janiuk"
+      ]
+    },
+    {
+      "title": "Workshop",
+      "description": "some description",
+      "date": "2026-11-05T07:11",
+      "location": "Online",
+      "speakers": [
+        "Kyle"
+      ],
+      "image": "/image/event4.png",
+      "id": "gR_B31X"
+    },
+    {
+      "title": "Angular some",
+      "description": "Some description",
+      "date": "2026-11-05T07:13",
+      "location": "online",
+      "speakers": [
+        "Kyle"
+      ],
+      "image": "/image/event4.png",
+      "id": "4Sjpam1"
     }
   ],
   "tickets": []
