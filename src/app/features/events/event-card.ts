@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { Component, computed, input, linkedSignal, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -25,20 +25,20 @@ import { RouterLink } from '@angular/router';
           </p>
 
           <!-- TODO Mod 1: Add daysUntil() using @let -->
-           @let days = daysUntil();
-           @if (days != null) {
+          @let days = daysUntil();
+          @if (days != null) {
             <div
               class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full shadow-sm"
             >
-            @if (days > 0) {
-              In {{ days }} Days
-            } @else if (days < 0 ) {
-              Past Event
-            } @else {
-              Happening Now!
-            }
+              @if (days > 0) {
+                In {{ days }} Days
+              } @else if (days < 0) {
+                Past Event
+              } @else {
+                Happening Now!
+              }
             </div>
-           }
+          }
         </div>
 
         <!-- TODO Mod 1: Add Title Input -->
@@ -46,23 +46,30 @@ import { RouterLink } from '@angular/router';
 
         <div class="flex justify-between items-center mt-4">
           <!-- TODO Mod 1: Add Derived State (Like Button) -->
-          <button 
-          (click)="toggleFavorite()"
-          [class.text-red-500]="isFavorite()"
-          class="text-gray-400 hover:text-red-500 transition-colors cursor-pointer">
-            {{ isFavorite() ? '❤️' : '♡'}} Like
+          <button
+            (click)="toggleFavorite()"
+            [class.text-red-500]="isFavorite()"
+            class="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
+          >
+            {{ isFavorite() ? '❤️' : '♡' }} Like
           </button>
 
           <!-- TODO Mod 1: Add Output -->
           <button
-          (click)="removeEvent()"
-          class="text-gray-400 text-sm hover:text-gray-600 cursor-pointer">Remove</button>
+            (click)="removeEvent()"
+            class="text-gray-400 text-sm hover:text-gray-600 cursor-pointer"
+          >
+            Remove
+          </button>
         </div>
 
         <div class="mt-4 pt-4 border-t border-gray-100 text-right">
           <a
-          [routerLink]="['/event', id()]"
-          class="text-blue-600 font-medium hover:underline cursor-pointer"> View Details → </a>
+            [routerLink]="['/event', id()]"
+            class="text-blue-600 font-medium hover:underline cursor-pointer"
+          >
+            View Details →
+          </a>
         </div>
       </div>
     </div>
@@ -95,12 +102,10 @@ export class EventCard {
   });
 
   toggleFavorite() {
-    this.isFavorite.update(v => !v);
+    this.isFavorite.update((v) => !v);
   }
 
   removeEvent() {
     this.delete.emit();
   }
-
-
 }
