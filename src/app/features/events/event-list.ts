@@ -10,12 +10,12 @@ import { EventsService } from '../../core/events.service';
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h1>
       <!-- TODO Mod 1: Add SearchBar here -->
-       <app-search-bar [(query)]="searchQuery" />
-       <p class="text-gray-500 mt-2">Searching for: {{ searchQuery() }}</p>
+      <app-search-bar [(query)]="searchQuery" />
+      <p class="text-gray-500 mt-2">Searching for: {{ searchQuery() }}</p>
     </div>
 
     <!-- TODO Mod 2: Wrap in @if (events.isLoading()) -->
-     @if (events.error()) {
+    @if (events.error()) {
       <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
         Failed to load events. Is the server running?
       </div>
@@ -29,7 +29,7 @@ import { EventsService } from '../../core/events.service';
       <!-- TODO Mod 2: Use @for to iterate over resource -->
 
       <!-- Static Placeholders for initial verify -->
-       @if (events.hasValue()) {
+      @if (events.hasValue()) {
         @for (event of events.value(); track event.id) {
           <app-event-card
             [title]="event.title"
@@ -37,11 +37,12 @@ import { EventsService } from '../../core/events.service';
             [date]="event.date"
             (delete)="deleteEvent(event.id)"
             [id]="event.id"
+            [trackingId]="'event_card_' + event.id"
           />
         } @empty {
           <p>No Record Found!</p>
         }
-       }
+      }
     </div>
   `,
 })
@@ -56,13 +57,13 @@ export class EventList {
 
   deleteEvent(id: string) {
     this.eventsService.deleteEvent(id).subscribe({
-      next: (() => {
+      next: () => {
         this.events.reload();
-      }),
+      },
       error(err) {
         console.error('Delete failed', err);
         alert('Could not delete event');
-      }
-    })
+      },
+    });
   }
 }

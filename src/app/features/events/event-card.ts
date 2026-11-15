@@ -1,21 +1,35 @@
 import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { Component, computed, input, linkedSignal, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { UiCard } from '../../shared/ui-card';
+import { ClickLogger } from '../../shared/directives/click-logger';
 
 @Component({
   selector: 'app-event-card',
-  imports: [DatePipe, DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, UiCard, ClickLogger],
+  hostDirectives: [
+    {
+      directive: ClickLogger,
+      inputs: ['eventName: trackingId'],
+    },
+  ],
   template: `
-    <div
-      class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-    >
+    <app-ui-card>
       <!-- TODO: Add Image -->
-      <div class="relative h-48 w-full bg-gray-200">
+      <div card-header class="relative h-48 w-full bg-gray-200">
         <img
           [src]="image()"
           class="object-cover w-full h-full max-h-full max-w-full"
           alt="Event thumbnail"
         />
+      </div>
+      <div card-footer class="mt-4 pt-4 border-t border-gray-100 text-right">
+        <a
+          [routerLink]="['/event', id()]"
+          class="text-blue-600 font-medium hover:underline cursor-pointer"
+        >
+          View Details →
+        </a>
       </div>
       <div class="p-6">
         <div class="flex justify-between items-center mt-4">
@@ -47,6 +61,8 @@ import { RouterLink } from '@angular/router';
         <div class="flex justify-between items-center mt-4">
           <!-- TODO Mod 1: Add Derived State (Like Button) -->
           <button
+            appClickLogger
+            eventName="Liked Event"
             (click)="toggleFavorite()"
             [class.text-red-500]="isFavorite()"
             class="text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
@@ -62,17 +78,8 @@ import { RouterLink } from '@angular/router';
             Remove
           </button>
         </div>
-
-        <div class="mt-4 pt-4 border-t border-gray-100 text-right">
-          <a
-            [routerLink]="['/event', id()]"
-            class="text-blue-600 font-medium hover:underline cursor-pointer"
-          >
-            View Details →
-          </a>
-        </div>
       </div>
-    </div>
+    </app-ui-card>
   `,
 })
 export class EventCard {
