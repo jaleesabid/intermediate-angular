@@ -5,6 +5,17 @@ import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/cart.service';
 import { Tab } from '../../shared/tabs/tab';
 import { TabGroup } from '../../shared/tabs/tab-group';
+import {
+  catchError,
+  concatMap,
+  delay,
+  exhaustMap,
+  mergeMap,
+  of,
+  Subject,
+  switchMap,
+  throwError,
+} from 'rxjs';
 
 @Component({
   selector: 'app-event-details',
@@ -115,6 +126,31 @@ export class EventDetails {
   readonly eventResource = this.eventService.getEventResource(this.id);
 
   addTicket() {
-    this.cartService.addTicket(this.id());
+    // this.cartService.addTicket(this.id());
+    this.buyBtnClick$.next();
+  }
+
+  private buyBtnClick$ = new Subject<void>();
+
+  constructor() {
+    this.buyBtnClick$
+      .pipe(
+        exhaustMap(() => {
+          console.log('🔄 Trying to buy...');
+          // Simulate an API Error
+          return throwError(() => new Error('Credit Card Declined')).pipe(
+            delay(500),
+            catchError(() => of('Caught')),
+          );
+        }),
+      )
+      .subscribe({
+        next: (result) => {
+          console.log('✅', result);
+        },
+        error: (err) => {
+          console.error('Stream Died', err);
+        },
+      });
   }
 }
