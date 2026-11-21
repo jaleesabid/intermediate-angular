@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { TICKETS_URL } from './tokens';
 
-interface TicketEntry {
+export interface TicketEntry {
   id: string;
   eventId: string;
 }

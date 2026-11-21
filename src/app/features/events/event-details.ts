@@ -16,6 +16,7 @@ import {
   switchMap,
   throwError,
 } from 'rxjs';
+import { CartStore } from '../../core/cart.store';
 
 @Component({
   selector: 'app-event-details',
@@ -102,9 +103,14 @@ import {
             @defer (hydrate on interaction) {
               <button
                 (click)="addTicket()"
+                [disabled]="cartStore.isPending()"
                 class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 shadow-lg transition"
               >
-                Buy Tickets
+                @if (cartStore.isPending()) {
+                  Syncing...
+                } @else {
+                  Buy Ticket
+                }
               </button>
             } @placeholder {
               <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold opacity-90">
@@ -121,36 +127,12 @@ export class EventDetails {
   // TODO Mod 3: id = input<string>()
   readonly id = input.required<string>();
   readonly eventService = inject(EventsService);
-  readonly cartService = inject(CartService);
+  // readonly cartService = inject(CartService);
+  readonly cartStore = inject(CartStore);
 
   readonly eventResource = this.eventService.getEventResource(this.id);
 
   addTicket() {
-    // this.cartService.addTicket(this.id());
-    this.buyBtnClick$.next();
-  }
-
-  private buyBtnClick$ = new Subject<void>();
-
-  constructor() {
-    this.buyBtnClick$
-      .pipe(
-        exhaustMap(() => {
-          console.log('🔄 Trying to buy...');
-          // Simulate an API Error
-          return throwError(() => new Error('Credit Card Declined')).pipe(
-            delay(500),
-            catchError(() => of('Caught')),
-          );
-        }),
-      )
-      .subscribe({
-        next: (result) => {
-          console.log('✅', result);
-        },
-        error: (err) => {
-          console.error('Stream Died', err);
-        },
-      });
+    this.cartStore.addToCart({ eventId: this.id() });
   }
 }
